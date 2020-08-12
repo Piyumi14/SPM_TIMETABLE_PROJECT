@@ -78,8 +78,9 @@ public class MainDashboard extends javax.swing.JFrame {
 
     private void btnSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubjectActionPerformed
         // TODO add your handling code here:
-        SubjectDetails sd = new SubjectDetails();
+        NewSubject sd = new NewSubject();
         sd.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnSubjectActionPerformed
 
     /**
