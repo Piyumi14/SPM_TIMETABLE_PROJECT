@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +24,7 @@ public class DBOperation {
     Connection con = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+    Statement st;
     
     //Add Subject Details
     boolean addSubject(Subject s) {
@@ -92,42 +95,22 @@ public class DBOperation {
             return null;
         }
     }
-    
-    //Update Subject Details
-    public boolean updateSubject(Subject s) {
-        try {
+  
+     
+     //Execute SQL
+     public void executeSQLQuery(String query, String message){
+         try {
             con = (Connection) DriverManager.getConnection(url, username, password);
-            String query = "UPDATE subject SET academicYear='" + s.getAcademicYear()
-                    + "' , semester='" + s.getSemester()
-                    + "' , program='" + s.getProgram()
-                    + "' , groupNo='" + s.getGroupNo()
-                    + "' , subGroupNo='" + s.getSubGroupNo()
-                   
-                    + "' WHERE id=" + s.getSid();
-            pst = (PreparedStatement) con.prepareStatement(query);
+            st = con.createStatement();
 
-            pst.executeUpdate();
-
-            return true;
+            if((st.executeUpdate(query)) == 1){
+                JOptionPane.showMessageDialog(null, "Data " +message+" Successfully");
+            }else{
+                JOptionPane.showMessageDialog(null, "Data Not " +message+" Successfully");
+            }
         } catch (Exception e) {
             System.out.println(e);
-            return false;
         }
-    }
-    
-    //Delete Subject Details
-     public boolean deleteSubject(Subject s) {
-        try {
-            con = (Connection) DriverManager.getConnection(url, username, password);
-            String query = "DELETE FROM subject WHERE id=" + s.getSid();
-            pst = (PreparedStatement) con.prepareStatement(query);
-
-            pst.executeUpdate();
-
-            return true;
-        } catch (Exception e) {
-            System.out.println(e);
-            return false;
-        }
-    } 
+     }
+     
 }

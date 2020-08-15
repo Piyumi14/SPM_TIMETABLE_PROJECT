@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,6 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class NewSubject extends javax.swing.JFrame {
     DBOperation db = new DBOperation();
+    
     /**
      * Creates new form SubjectDetails
      */
@@ -60,6 +62,9 @@ public class NewSubject extends javax.swing.JFrame {
         txtGroupNo = new javax.swing.JTextField();
         txtSubGroupNo = new javax.swing.JTextField();
         btnSave = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        lblID = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSubject = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
@@ -88,14 +93,40 @@ public class NewSubject extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.setText("Update Details");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Delete Details");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        lblID.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(89, 89, 89)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(69, 69, 69))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnSave)
+                                .addGap(289, 289, 289)))
+                        .addComponent(btnDelete))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
@@ -108,16 +139,16 @@ public class NewSubject extends javax.swing.JFrame {
                             .addComponent(txtSemester)
                             .addComponent(txtProgram)
                             .addComponent(txtGroupNo)
-                            .addComponent(txtSubGroupNo)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(269, 269, 269)
-                        .addComponent(btnSave)))
+                            .addComponent(txtSubGroupNo)
+                            .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(63, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(109, 109, 109)
+                .addGap(44, 44, 44)
+                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -142,9 +173,12 @@ public class NewSubject extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtSubGroupNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(145, 145, 145)
-                .addComponent(btnSave)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
         );
 
         tblSubject.setModel(new javax.swing.table.DefaultTableModel(
@@ -158,6 +192,11 @@ public class NewSubject extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6"
             }
         ));
+        tblSubject.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSubjectMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblSubject);
 
         jPanel2.setBackground(new java.awt.Color(51, 255, 255));
@@ -215,8 +254,8 @@ public class NewSubject extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 951, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(71, 71, 71))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(763, 763, 763)
-                        .addComponent(jLabel6)
+                        .addGap(719, 719, 719)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,8 +272,8 @@ public class NewSubject extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane1))
@@ -257,13 +296,50 @@ public class NewSubject extends javax.swing.JFrame {
 
         if(result){
             JOptionPane.showMessageDialog(this, "Successfully Saved");
-            clearFields();
-            
+            clearFields();  
         }
         else{
             JOptionPane.showMessageDialog(this, "Error in Inserting");
         }
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void tblSubjectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSubjectMouseClicked
+        //Get Data For Text Boxes
+        int i = tblSubject.getSelectedRow();
+        TableModel model = tblSubject.getModel();
+        lblID.setText(model.getValueAt(i, 0).toString());
+        txtAcademicYear.setText(model.getValueAt(i, 1).toString());
+        txtSemester.setText(model.getValueAt(i, 2).toString());
+        txtProgram.setText(model.getValueAt(i, 3).toString());
+        txtGroupNo.setText(model.getValueAt(i, 4).toString());
+        txtSubGroupNo.setText(model.getValueAt(i, 5).toString());
+        
+    }//GEN-LAST:event_tblSubjectMouseClicked
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+        String query = "UPDATE subject SET academicYear='" + txtAcademicYear.getText()
+                    + "' , semester='" + txtSemester.getText()
+                    + "' , program='" + txtProgram.getText()
+                    + "' , groupNo='" + txtGroupNo.getText()
+                    + "' , subGroupNo='" + txtSubGroupNo.getText()
+                  
+                    + "' WHERE sid=" + lblID.getText();
+
+        db.executeSQLQuery(query, "Updated");
+        
+        clearFields();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    
+        String query = "DELETE FROM subject WHERE sid=" + lblID.getText();
+        
+        db.executeSQLQuery(query, "Deleted");
+        
+        clearFields();
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -302,6 +378,7 @@ public class NewSubject extends javax.swing.JFrame {
     }
     
     void clearFields(){
+        lblID.setText("");
         txtAcademicYear.setText("");
         txtSemester.setText("");
         txtProgram.setText("");
@@ -311,7 +388,9 @@ public class NewSubject extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -323,6 +402,7 @@ public class NewSubject extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblID;
     private javax.swing.JTable tblSubject;
     private javax.swing.JTextField txtAcademicYear;
     private javax.swing.JTextField txtGroupNo;
