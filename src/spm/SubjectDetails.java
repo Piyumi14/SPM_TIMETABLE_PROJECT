@@ -19,9 +19,7 @@ public class SubjectDetails extends AbstractTableModel{
         "Semester",
         "Program",
         "Group Number",
-        "Sub Group Number",
-        "Edit",
-        "Remove"
+        "Sub Group Number"
     };
     
     private static ArrayList<Subject> list;
@@ -52,10 +50,6 @@ public class SubjectDetails extends AbstractTableModel{
                 return list.get(rowIndex).getGroupNo();
             case 5:
                 return list.get(rowIndex).getSubGroupNo();
-            case 6:
-                return "Edit";
-            case 7:
-                return "Remove";
             default:
                 return "Error";
         }
