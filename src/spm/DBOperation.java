@@ -113,4 +113,67 @@ public class DBOperation {
         }
      }
      
+     //Add Tag Details
+    boolean addTag(Tag t) {
+        try {
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "Insert into tag values (?,?,?)";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            pst.setInt(1, t.getTid());
+            pst.setString(2, t.getTag());
+            pst.setString(3, t.getDescription());
+           
+            pst.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+        }
+    }
+    
+    //Get all Subject Details
+    ArrayList<Tag> getTags() {
+        try {
+            ArrayList<Tag> list = new ArrayList<Tag>();
+
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM tag";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Tag t = new Tag();
+                t.setTid(rs.getInt(1));
+                t.setTag(rs.getString(2));
+                t.setDescription(rs.getString(3));
+                
+                list.add(t);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
 }
