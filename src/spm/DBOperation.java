@@ -26,11 +26,28 @@ public class DBOperation {
     ResultSet rs = null;
     Statement st;
     
+    public static Connection connect(){
+        
+        Connection con=null;
+        
+        try {
+            
+            Class.forName("com.mysql.jdbc.Driver");
+            con=DriverManager.getConnection("jdbc:mysql://localhost:3306/spm", "root", "root");
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        return con;
+        
+    }
+    
     //Add Subject Details
     boolean addSubject(Subject s) {
         try {
             con = (Connection) DriverManager.getConnection(url, username, password);
-            String query = "Insert into subject values (?,?,?,?,?,?)";
+            String query = "Insert into student values (?,?,?,?,?,?)";
             pst = (PreparedStatement) con.prepareStatement(query);
 
             pst.setInt(1, s.getSid());
@@ -73,7 +90,7 @@ public class DBOperation {
             ArrayList<Subject> list = new ArrayList<Subject>();
 
             con = (Connection) DriverManager.getConnection(url, username, password);
-            String query = "SELECT * FROM subject";
+            String query = "SELECT * FROM student";
             pst = (PreparedStatement) con.prepareStatement(query);
 
             rs = pst.executeQuery();
@@ -176,4 +193,244 @@ public class DBOperation {
             return null;
         }
     }
+    
+    
+    ///////DURANKA
+        boolean addBuilding(BuildingModel b) {
+        try {
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "Insert into building values (?,?,?,?,?,?)";
+            pst = (PreparedStatement) con.prepareStatement(query);
+            
+    
+
+            pst.setInt(1, b.getBid());
+            pst.setString(2, b.getbName());
+            pst.setString(3, b.getCenter());
+            pst.setString(4, b.getLocation());
+            pst.setString(5, b.getNoOfFloors());
+            pst.setString(6, b.getDepartment());
+
+            pst.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+        }
+    }
+    
+    
+     ArrayList<BuildingModel> getBuildingDetails() {
+        try {
+            ArrayList<BuildingModel> list = new ArrayList<BuildingModel>();
+
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM building";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                BuildingModel buildingModel = new BuildingModel();
+                buildingModel.setBid(rs.getInt(1));
+                buildingModel.setCenter(rs.getString(3));
+                buildingModel.setbName(rs.getString(2));
+                buildingModel.setLocation(rs.getString(4));
+                buildingModel.setNoOfFloors(rs.getString(5));
+                buildingModel.setDepartment(rs.getString(6));
+               
+                list.add(buildingModel);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+     
+      boolean addRoom(AddRoomModel r) {
+        try {
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "Insert into room values (?,?,?,?,?,?,?)";
+            pst = (PreparedStatement) con.prepareStatement(query);
+            
+    
+
+            pst.setInt(1, r.getRid());
+            pst.setString(2, r.getrName());
+            pst.setString(3, r.getRoomType());
+            pst.setString(4, r.getFloorNo());
+            pst.setString(5, r.getSection());
+            pst.setString(6, r.getRoomNo());
+             pst.setInt(7, r.getrBid());
+
+            pst.executeUpdate();
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        } finally {
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (Exception e) {
+                    System.out.println(e);
+                    return false;
+                }
+            }
+        }
+    }  
+      
+      ArrayList<AddRoomModel> getRoomDetails() {
+        try {
+            ArrayList<AddRoomModel> list = new ArrayList<AddRoomModel>();
+
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM room";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                AddRoomModel addRoomModel = new AddRoomModel();
+                addRoomModel.setRid(rs.getInt(1));
+                addRoomModel.setrName(rs.getString(2));
+                addRoomModel.setRoomType(rs.getString(3));
+                addRoomModel.setFloorNo(rs.getString(4));
+                addRoomModel.setSection(rs.getString(5));
+                addRoomModel.setRoomNo(rs.getString(6));
+                addRoomModel.setrBid(rs.getInt(7));
+               
+                list.add(addRoomModel);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+      ArrayList<AsubjectStacModel> getSubStac() {
+        try {
+            ArrayList<AsubjectStacModel> list = new ArrayList<AsubjectStacModel>();
+
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM subjects";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            rs = pst.executeQuery();
+            
+          
+
+            while (rs.next()) {
+                AsubjectStacModel asubjectStacModel = new AsubjectStacModel();
+                asubjectStacModel.setId(rs.getInt(1));
+                asubjectStacModel.setYears(rs.getString(2));
+                asubjectStacModel.setSem(rs.getString(3));
+                asubjectStacModel.setSubName(rs.getString(4));
+                asubjectStacModel.setSubCode(rs.getString(5));
+                asubjectStacModel.setLecHr(rs.getString(6));
+                asubjectStacModel.setTuteHr(rs.getString(7));
+                asubjectStacModel.setLabHr(rs.getString(8));
+                 asubjectStacModel.setEvlHr(rs.getString(9));
+               
+                list.add(asubjectStacModel);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+ ArrayList<AlecStacModel> getLecStac() {
+        try {
+            ArrayList<AlecStacModel> list = new ArrayList<AlecStacModel>();
+
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "SELECT * FROM lecturers";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            rs = pst.executeQuery();
+          
+            while (rs.next()) {
+                AlecStacModel alecStacModel = new AlecStacModel();
+                alecStacModel.setEmployeeID(rs.getInt(1));
+                alecStacModel.setName(rs.getString(2));
+                alecStacModel.setFaculty(rs.getString(3));
+                alecStacModel.setDept(rs.getString(4));
+                alecStacModel.setCenter(rs.getString(5));
+                alecStacModel.setBuilding(rs.getString(6));
+                alecStacModel.setLevel(rs.getString(7));
+                alecStacModel.setLevel(rs.getString(8));
+              
+               
+                list.add(alecStacModel);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+ 
+  ArrayList<AstudentStacModel> getStuStac() {
+        try {
+            ArrayList<AstudentStacModel> list = new ArrayList<AstudentStacModel>();
+
+            con = (Connection) DriverManager.getConnection(url, username, password);
+            String query = "SELECT program,academicYear,semester ,count(DISTINCT groupNo), COUNT(subGroupNo),COUNT(sid) as NoOFStudent FROM `student`GROUP BY program,academicYear";
+            pst = (PreparedStatement) con.prepareStatement(query);
+
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                AstudentStacModel astudentStacModel = new AstudentStacModel();
+                astudentStacModel.setSprogram(rs.getString(1));
+                 astudentStacModel.setAcadamicYear(rs.getString(2));
+                astudentStacModel.setSsenester(rs.getString(3));
+                astudentStacModel.setNoOfStu(rs.getString(6));
+                astudentStacModel.setNoOfGroup(rs.getString(4));
+                astudentStacModel.setNoOfSubGroup(rs.getString(5));
+                
+               
+                list.add(astudentStacModel);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+   
 }
